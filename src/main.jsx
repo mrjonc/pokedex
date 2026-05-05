@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
-import Pokedex from "./pages/Pokedex.jsx";
+import Pokedex from "./pages/pokedex/Pokedex.jsx";
 import Pokemon from "./pages/Pokemon.jsx";
 
 import "./index.css";

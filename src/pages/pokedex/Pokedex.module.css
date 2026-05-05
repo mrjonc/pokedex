@@ -1,0 +1,35 @@
+.pokemonList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 1rem;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  transition: transform 0.5s;
+  color: white;
+}
+
+.container:hover {
+  transform: translateY(-8px);
+}
+
+.container p {
+  font-weight: bold;
+  margin: 0 auto;
+  text-align: center;
+}
