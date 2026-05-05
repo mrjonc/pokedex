@@ -7,7 +7,7 @@ function NavBar() {
         <Link className="navbar-brand" href="#">
           <img
             className="navbar-logo"
-            src="src\assets\img\pokemon-logo.png"
+            src="./img/types/pokemon-logo.png"
             alt="logo do anime Pokemon"
             to="/"
           />
