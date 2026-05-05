@@ -4,12 +4,11 @@ function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           <img
             className="navbar-logo"
             src="./img/types/pokemon-logo.png"
             alt="logo do anime Pokemon"
-            to="/"
           />
         </Link>
         <button

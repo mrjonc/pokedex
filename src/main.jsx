@@ -7,7 +7,8 @@ import Pokedex from "./pages/pokedex/Pokedex.jsx";
 import Pokemon from "./pages/Pokemon.jsx";
 
 import "./index.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const router = createBrowserRouter([
   {
