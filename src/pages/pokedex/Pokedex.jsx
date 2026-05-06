@@ -44,15 +44,29 @@ const typeColors = {
   normal: "#A8A878",
 };
 
-function Pokedex() {
+const generations = {
+  1: { limit: 151, offset: 0 },
+  2: { limit: 100, offset: 151 },
+  3: { limit: 135, offset: 251 },
+  4: { limit: 107, offset: 386 },
+  5: { limit: 156, offset: 493 },
+  6: { limit: 72, offset: 649 },
+  7: { limit: 88, offset: 721 },
+  8: { limit: 96, offset: 809 },
+  9: { limit: 120, offset: 905 },
+};
+
+function Pokedex({ buscar }) {
   const [pokemons, setPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [gen, setGen] = useState(1);
 
   useEffect(() => {
     const getPokemons = async () => {
       try {
+        const { limit, offset } = generations[gen];
         const response = await axios.get(
-          "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0",
+          `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
         );
         const results = response.data.results;
 
@@ -79,7 +93,7 @@ function Pokedex() {
       }
     };
     getPokemons();
-  }, []);
+  }, [gen]);
 
   const getPokemonId = (url) => {
     const splitUrl = url.split("/");
@@ -90,6 +104,24 @@ function Pokedex() {
     <>
       <div className={styles.container}>
         <div className={styles.containerLeft}>
+          <div className={styles.filterContainer}>
+            <label>Generation: </label>
+            <select
+              value={gen}
+              id="generation"
+              onChange={(e) => setGen(Number(e.target.value))}
+            >
+              <option value={1}>1ª Geração</option>
+              <option value={2}>2ª Geração</option>
+              <option value={3}>3ª Geração</option>
+              <option value={4}>4ª Geração</option>
+              <option value={5}>5ª Geração</option>
+              <option value={6}>6ª Geração</option>
+              <option value={7}>7ª Geração</option>
+              <option value={8}>8ª Geração</option>
+              <option value={9}>9ª Geração</option>
+            </select>
+          </div>
           <ul className={styles.pokemonList}>
             {pokemons.map((pokemon, index) => {
               const mainType = pokemon.types && pokemon.types[0];
@@ -101,6 +133,7 @@ function Pokedex() {
                   key={index}
                   className={styles.card}
                   style={{ backgroundColor: cardColor }}
+                  onClick={() => setSelectedPokemon(pokemon)}
                 >
                   <p>Nº {String(id).padStart(4, "0")}</p>
 

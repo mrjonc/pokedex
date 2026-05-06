@@ -53,10 +53,19 @@
 }
 
 .containerLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   max-width: 55%;
   height: 100%;
   overflow-y: auto;
   padding-right: 1rem;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .containerRight {
