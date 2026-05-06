@@ -4,7 +4,7 @@ import styles from "./Pokedex.module.css";
 
 const pokemonTypes = {
   bug: "./img/types/bug.png",
-  dark: ".img/types/dark.png",
+  dark: "./img/types/dark.png",
   dragon: "./img/types/dragon.png",
   electric: "./img/types/electric.png",
   fairy: "./img/types/fairy.png",
@@ -46,6 +46,7 @@ const typeColors = {
 
 function Pokedex() {
   const [pokemons, setPokemons] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -61,11 +62,18 @@ function Pokedex() {
             name: pokemon.name,
             url: pokemon.url,
             types: res.data.types.map((t) => t.type.name),
+            height: res.data.height,
+            weight: res.data.weight,
+            abilities: res.data.abilities.map((a) => a.ability.name),
           };
         });
 
         const pokemonsData = await Promise.all(promises);
         setPokemons(pokemonsData);
+
+        if (pokemonsData.length > 0) {
+          setSelectedPokemon(pokemonsData[0]);
+        }
       } catch (error) {
         console.error("Erro ao buscar os pokemons", error);
       }
@@ -78,42 +86,102 @@ function Pokedex() {
     return splitUrl[splitUrl.length - 2];
   };
 
-  console.log(pokemons);
   return (
     <>
-      <ul className={styles.pokemonList}>
-        {pokemons.map((pokemon, index) => {
-          const mainType = pokemon.types && pokemon.types[0];
-          const cardColor = typeColors[mainType] || "#FFFFFF";
-          const id = getPokemonId(pokemon.url);
+      <div className={styles.container}>
+        <div className={styles.containerLeft}>
+          <ul className={styles.pokemonList}>
+            {pokemons.map((pokemon, index) => {
+              const mainType = pokemon.types && pokemon.types[0];
+              const cardColor = typeColors[mainType] || "#FFFFFF";
+              const id = getPokemonId(pokemon.url);
 
-          return (
-            <li
-              key={index}
-              className={styles.container}
-              style={{ backgroundColor: cardColor }}
-            >
+              return (
+                <li
+                  key={index}
+                  className={styles.card}
+                  style={{ backgroundColor: cardColor }}
+                >
+                  <p>Nº {String(id).padStart(4, "0")}</p>
+
+                  <img
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
+                    alt={pokemon.name}
+                    style={{ maxWidth: "120px", maxHeight: "120px" }}
+                  />
+                  <p>{pokemon.name.toUpperCase()}</p>
+
+                  <div className={styles.typeContainer}>
+                    {pokemon.types.map((typeName) => (
+                      <img
+                        key={typeName}
+                        src={pokemonTypes[typeName]}
+                        alt={typeName}
+                        style={{ maxWidth: "30px" }}
+                      />
+                    ))}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className={styles.containerRight}>
+          {selectedPokemon ? (
+            <div className={styles.detailsWrapper}>
+              <h2 className={styles.detailsTitle}>
+                {selectedPokemon.name.toUpperCase()}
+              </h2>
               <img
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
-                alt={pokemon.name}
+                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${getPokemonId(
+                  selectedPokemon.url,
+                )}.png`}
+                alt={selectedPokemon.name}
+                className={styles.detailsImage}
                 style={{ maxWidth: "120px", maxHeight: "120px" }}
               />
-              <p>{pokemon.name.toUpperCase()}</p>
 
-              <div className={styles.typeContainer}>
-                {pokemon.types.map((typeName) => (
-                  <img
-                    key={typeName}
-                    src={pokemonTypes[typeName]}
-                    alt={typeName}
-                    style={{ maxWidth: "30px" }}
-                  />
-                ))}
+              <p>
+                Nº {String(getPokemonId(selectedPokemon.url)).padStart(4, "0")}
+              </p>
+
+              <div className={styles.detailsInfo}>
+                <p>
+                  <strong>Height:</strong> {selectedPokemon.height / 10} m
+                </p>
+                <p>
+                  <strong>Weight:</strong> {selectedPokemon.weight / 10} kg
+                </p>
+
+                <strong>Type:</strong>
+                <div className={styles.type}>
+                  {selectedPokemon.types.map((typeName) => (
+                    <img
+                      key={typeName}
+                      src={pokemonTypes[typeName]}
+                      alt={typeName}
+                      style={{ maxWidth: "30px" }}
+                    />
+                  ))}
+                </div>
+                <div className={styles.abilitiesContainer}>
+                  <p>
+                    <strong>Abilities:</strong>
+                  </p>
+
+                  <ul>
+                    {selectedPokemon.abilities.map((ability, index) => (
+                      <li key={index}>{ability}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </li>
-          );
-        })}
-      </ul>
+            </div>
+          ) : (
+            <p>Clique em um Pokemon para ver os detalhes</p>
+          )}
+        </div>
+      </div>
     </>
   );
 }
