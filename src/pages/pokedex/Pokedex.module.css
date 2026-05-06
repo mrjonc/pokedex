@@ -7,29 +7,163 @@
   gap: 1rem;
   padding: 0;
   margin: 0 auto;
-  max-width: 1200px;
 }
 
-.container {
-  margin-top: 1rem;
+.card {
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
   cursor: pointer;
-  width: 200px;
-  height: 200px;
+  width: 170px;
+  height: 220px;
   transition: transform 0.5s;
   color: white;
 }
 
-.container:hover {
+.card:hover {
   transform: translateY(-8px);
 }
 
-.container p {
+.card p {
   font-weight: bold;
   margin: 0 auto;
   text-align: center;
+}
+
+.typeContainer {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.container {
+  display: flex;
+  height: 85vh;
+  gap: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: #e6e6e6;
+  border-radius: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 1200px;
+  overflow: hidden;
+}
+
+.containerLeft {
+  max-width: 55%;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.containerRight {
+  width: 40%;
+  height: 100%;
+  background-color: #212121;
+  color: white;
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.detailsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.detailsTitle {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detailsInfo {
+  margin-top: 1rem;
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.detailsInfo p {
+  margin: 0.4rem 0;
+}
+
+.abilitiesContainer ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.abilitiesContainer li {
+  background-color: #424242;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* --- Responsividade para Celulares --- */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    max-width: 95%;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .containerLeft,
+  .containerRight {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    padding: 1rem 0;
+  }
+
+  .containerLeft {
+    padding-right: 0;
+    max-height: 50vh;
+  }
+
+  .containerRight {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Aplica o Grid apenas nos celulares para ter 2 colunas */
+  .pokemonList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    width: 100%; /* Preenche a coluna do grid */
+    height: 220px;
+  }
+
+  .detailsTitle {
+    font-size: 1.5rem;
+  }
+
+  .detailsInfo {
+    font-size: 1rem;
+  }
 }
