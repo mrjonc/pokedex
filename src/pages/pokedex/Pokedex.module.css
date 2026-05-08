@@ -152,6 +152,7 @@
 
   .containerLeft {
     padding-right: 0;
+    overflow: hidden;
     max-height: 50vh;
   }
 
@@ -163,11 +164,16 @@
   .pokemonList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .card {
-    width: 100%; /* Preenche a coluna do grid */
+    width: 100% !important;
     height: 220px;
+    max-width: none;
+    box-sizing: border-box;
   }
 
   .detailsTitle {
