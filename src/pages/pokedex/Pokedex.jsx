@@ -101,13 +101,8 @@ function Pokedex({ search }) {
   }, [gen]);
 
   const filteredPokemons = pokemons.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(search.toLowerCase()),
+    pokemon.name.toLowerCase().includes(search?.toLowerCase() || ""),
   );
-
-  // const getPokemonId = (url) => {
-  //   const splitUrl = url.split("/");
-  //   return splitUrl[splitUrl.length - 2];
-  // };
 
   return (
     <>
