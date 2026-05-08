@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
+  const [search, setSearch] = useState("");
   return (
     <>
       <NavBar search={search} setSearch={setSearch} />
