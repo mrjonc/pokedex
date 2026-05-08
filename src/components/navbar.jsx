@@ -1,16 +1,14 @@
-import { Link } from "react-router-dom";
-
 function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container justify-content-center">
-        <Link className="navbar-brand me-4" to="/">
+        <div className="navbar-brand me-4" to="/">
           <img
             className="navbar-logo"
             src="./img/types/pokedex-logo.png"
             alt="logo"
           />
-        </Link>
+        </div>
 
         <div className="d-flex" id="navbarSupportedContent">
           <form className="d-flex" role="search">
