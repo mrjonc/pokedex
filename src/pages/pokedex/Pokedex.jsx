@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Pokedex.module.css";
+import { offset } from "@popperjs/core";
 
 const pokemonTypes = {
   bug: "./img/types/bug.png",
@@ -54,6 +55,7 @@ const generations = {
   7: { limit: 88, offset: 721 },
   8: { limit: 96, offset: 809 },
   9: { limit: 120, offset: 905 },
+  10: { limit: 1025, offset: 0 },
 };
 
 function Pokedex({ search }) {
@@ -119,15 +121,16 @@ function Pokedex({ search }) {
               id="generation"
               onChange={(e) => setGen(Number(e.target.value))}
             >
-              <option value={1}>1ª Geração</option>
-              <option value={2}>2ª Geração</option>
-              <option value={3}>3ª Geração</option>
-              <option value={4}>4ª Geração</option>
-              <option value={5}>5ª Geração</option>
-              <option value={6}>6ª Geração</option>
-              <option value={7}>7ª Geração</option>
-              <option value={8}>8ª Geração</option>
-              <option value={9}>9ª Geração</option>
+              <option value={1}>1st Generation</option>
+              <option value={2}>2nd Generation</option>
+              <option value={3}>3rd Generation</option>
+              <option value={4}>4th Generation</option>
+              <option value={5}>5th Generation</option>
+              <option value={6}>6th Generation</option>
+              <option value={7}>7th Generation</option>
+              <option value={8}>8th Generation</option>
+              <option value={9}>9th Generation</option>
+              <option value={10}>All Pokémons</option>
             </select>
           </div>
 

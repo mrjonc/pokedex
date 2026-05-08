@@ -7,6 +7,7 @@ function NavBar({ search, setSearch }) {
             className="navbar-logo"
             src="./img/types/pokedex-logo.png"
             alt="logo"
+            style={{ maxWidth: "100px" }}
           />
         </div>
 
