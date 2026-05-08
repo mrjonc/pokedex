@@ -154,10 +154,12 @@
     padding-right: 0;
     overflow: hidden;
     max-height: 50vh;
+    min-height: 300px;
   }
 
   .containerRight {
     padding: 1.5rem 1rem;
+    min-height: 400px;
   }
 
   /* Aplica o Grid apenas nos celulares para ter 2 colunas */
