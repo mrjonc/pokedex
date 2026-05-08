@@ -1,23 +1,27 @@
-import { Link } from "react-router-dom";
-
-function NavBar() {
+function NavBar({ search, setSearch }) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container justify-content-center">
-        <Link className="navbar-brand me-4" to="/">
+        <div className="navbar-brand me-4" to="/">
           <img
             className="navbar-logo"
             src="./img/types/pokedex-logo.png"
             alt="logo"
           />
-        </Link>
+        </div>
 
         <div className="d-flex" id="navbarSupportedContent">
-          <form className="d-flex" role="search">
+          <form
+            className="d-flex"
+            role="search"
+            onSubmit={(event) => event.preventDefault()}
+          >
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Search"
+              placeholder="Search Pokemon"
+              value={search}
+              onChange={(event) => setSearch(event.target.value.toLowerCase())}
             />
             <button
               className="btn btn-warning btn-outline-success"

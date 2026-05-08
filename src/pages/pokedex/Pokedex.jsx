@@ -56,13 +56,15 @@ const generations = {
   9: { limit: 120, offset: 905 },
 };
 
-function Pokedex({ buscar }) {
+function Pokedex({ search }) {
   const [pokemons, setPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [gen, setGen] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPokemons = async () => {
+      setLoading(true);
       try {
         const { limit, offset } = generations[gen];
         const response = await axios.get(
@@ -75,6 +77,7 @@ function Pokedex({ buscar }) {
           return {
             name: pokemon.name,
             url: pokemon.url,
+            id: res.data.id,
             types: res.data.types.map((t) => t.type.name),
             height: res.data.height,
             weight: res.data.weight,
@@ -90,15 +93,16 @@ function Pokedex({ buscar }) {
         }
       } catch (error) {
         console.error("Erro ao buscar os pokemons", error);
+      } finally {
+        setLoading(false);
       }
     };
     getPokemons();
   }, [gen]);
 
-  const getPokemonId = (url) => {
-    const splitUrl = url.split("/");
-    return splitUrl[splitUrl.length - 2];
-  };
+  const filteredPokemons = pokemons.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(search?.toLowerCase() || ""),
+  );
 
   return (
     <>
@@ -122,43 +126,51 @@ function Pokedex({ buscar }) {
               <option value={9}>9ª Geração</option>
             </select>
           </div>
-          <ul className={styles.pokemonList}>
-            {pokemons.map((pokemon, index) => {
-              const mainType = pokemon.types && pokemon.types[0];
-              const cardColor = typeColors[mainType] || "#FFFFFF";
-              const id = getPokemonId(pokemon.url);
 
-              return (
-                <li
-                  key={index}
-                  className={styles.card}
-                  style={{ backgroundColor: cardColor }}
-                  onClick={() => setSelectedPokemon(pokemon)}
-                >
-                  <p>Nº {String(id).padStart(4, "0")}</p>
+          {loading ? (
+            <p>Carregando Pokédex...</p>
+          ) : (
+            <ul className={styles.pokemonList}>
+              {filteredPokemons.length > 0 ? (
+                filteredPokemons.map((pokemon) => {
+                  const mainType = pokemon.types && pokemon.types[0];
+                  const cardColor = typeColors[mainType] || "#FFFFFF";
+                  return (
+                    <li
+                      key={pokemon.id}
+                      className={styles.card}
+                      style={{ backgroundColor: cardColor }}
+                      onClick={() => setSelectedPokemon(pokemon)}
+                    >
+                      <p>Nº {String(pokemon.id).padStart(4, "0")}</p>
 
-                  <img
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
-                    alt={pokemon.name}
-                    style={{ maxWidth: "120px", maxHeight: "120px" }}
-                  />
-                  <p>{pokemon.name.toUpperCase()}</p>
-
-                  <div className={styles.typeContainer}>
-                    {pokemon.types.map((typeName) => (
                       <img
-                        key={typeName}
-                        src={pokemonTypes[typeName]}
-                        alt={typeName}
-                        style={{ maxWidth: "30px" }}
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                        alt={pokemon.name}
+                        style={{ maxWidth: "120px", maxHeight: "120px" }}
                       />
-                    ))}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                      <p>{pokemon.name.toUpperCase()}</p>
+
+                      <div className={styles.typeContainer}>
+                        {pokemon.types.map((typeName) => (
+                          <img
+                            key={typeName}
+                            src={pokemonTypes[typeName]}
+                            alt={typeName}
+                            style={{ maxWidth: "30px" }}
+                          />
+                        ))}
+                      </div>
+                    </li>
+                  );
+                })
+              ) : (
+                <p>Nenhum Pokémon encontrado nesta geração</p>
+              )}
+            </ul>
+          )}
         </div>
+
         <div className={styles.containerRight}>
           {selectedPokemon ? (
             <div className={styles.detailsWrapper}>
@@ -166,17 +178,13 @@ function Pokedex({ buscar }) {
                 {selectedPokemon.name.toUpperCase()}
               </h2>
               <img
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${getPokemonId(
-                  selectedPokemon.url,
-                )}.png`}
+                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedPokemon.id}.png`}
                 alt={selectedPokemon.name}
                 className={styles.detailsImage}
                 style={{ maxWidth: "120px", maxHeight: "120px" }}
               />
 
-              <p>
-                Nº {String(getPokemonId(selectedPokemon.url)).padStart(4, "0")}
-              </p>
+              <p>Nº {String(selectedPokemon.id).padStart(4, "0")}</p>
 
               <div className={styles.detailsInfo}>
                 <p>
