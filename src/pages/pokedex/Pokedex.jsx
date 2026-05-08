@@ -103,6 +103,10 @@ function Pokedex({ search }) {
   const filteredPokemons = pokemons.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(search?.toLowerCase() || ""),
   );
+  const selectedPokemonMainType =
+    selectedPokemon?.types && selectedPokemon.types[0];
+  const selectedPokemonTypeColor =
+    typeColors[selectedPokemonMainType] || "#FFFFFF";
 
   return (
     <>
@@ -171,11 +175,17 @@ function Pokedex({ search }) {
           )}
         </div>
 
-        <div className={styles.containerRight}>
+        <div
+          className={styles.containerRight}
+          style={{
+            backgroundColor: selectedPokemonTypeColor,
+            borderRadius: "1rem",
+          }}
+        >
           {selectedPokemon ? (
             <div className={styles.detailsWrapper}>
               <h2 className={styles.detailsTitle}>
-                {selectedPokemon.name.toUpperCase()}
+                <strong>{selectedPokemon.name.toUpperCase()}</strong>
               </h2>
               <img
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedPokemon.id}.png`}
@@ -184,8 +194,9 @@ function Pokedex({ search }) {
                 style={{ maxWidth: "120px", maxHeight: "120px" }}
               />
 
-              <p>Nº {String(selectedPokemon.id).padStart(4, "0")}</p>
-
+              <strong>
+                <p>Nº {String(selectedPokemon.id).padStart(4, "0")}</p>
+              </strong>
               <div className={styles.detailsInfo}>
                 <p>
                   <strong>Height:</strong> {selectedPokemon.height / 10} m
@@ -212,7 +223,9 @@ function Pokedex({ search }) {
 
                   <ul>
                     {selectedPokemon.abilities.map((ability, index) => (
-                      <li key={index}>{ability}</li>
+                      <li key={index}>
+                        <strong>{ability}</strong>
+                      </li>
                     ))}
                   </ul>
                 </div>
